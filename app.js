@@ -46,6 +46,48 @@ const alternatePlayer = (turn) => {
   return 1;
 };
 
+const checkForWin = (tuple) => {
+
+
+
+
+  return false;
+};
+
+const checkHoriz = (tuple, board) => {
+  const val = board[tuple[0]][tuple[1]];
+  if (board[tuple[0][tuple[0] + 1]] === val && board[tuple[0]][tuple[0] - 1] === val) {
+    return true;
+  }
+  return false;
+};
+const checkVert = (tuple, board) => {
+  const val = board[tuple[0]][tuple[1]];
+  const up = tuple[0] - 1;
+  const down = tuple[0] + 1;
+  if (board[up][tuple[1]] === val && board[down][tuple[1]] === val) {
+    return true;
+  }
+  return false;
+};
+const checkMajDiag = (tuple, board) => {
+  const val = board[tuple[0]][tuple[1]];
+  const up = [tuple[0] + 1, [tuple[1] + 1]];
+  const down = [tuple[0] - 1, [tuple[1] - 1]];
+  if (board[up][tuple[1]] === val && board[down][tuple[1]] === val) {
+    return true;
+  }
+  return false;
+};
+const checkMinDiag = (tuple, board) => {
+  const val = board[tuple[0]][tuple[1]];
+  const up = [tuple[0] + 1, [tuple[1] + 1]];
+  const down = [tuple[0] - 1, [tuple[1] - 1]];
+  if (board[up][tuple[1]] === val && board[down][tuple[1]] === val) {
+    return true;
+  }
+  return false;
+};
 // we want a message to tell us whose turn it is
 // AND whether they are an x or o
 const takeTurnMessage = `It is ${player}'s turn. Play you're ${mark[turn]}, ${player}! Tell me the coordinates of you're move. (e.g. '00' will put your mark at the top left point and '22' will put it at the bottom right!)`;
@@ -55,6 +97,7 @@ const playedTurnMessage = `${player} played an ${mark[turn]}. Here is the new bo
 const printBoardMessage = (board) => `Here is the board: \n ${printBoard(board)} \n${takeTurnMessage}`;
 
 console.log('Let\'s play Tic Tac Toe! \n', '\n', printBoardMessage(board));
+
 
 process.stdin.setEncoding('utf8');
 
