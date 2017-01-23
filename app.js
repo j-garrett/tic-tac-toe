@@ -28,16 +28,6 @@ const printBoard = (board) => {
   return board.slice().join('\n');
 };
 
-const addPiece = (tuple) => {
-  console.log('parseInt(tuple[0]): ', parseInt(tuple[0]) + 1);
-  console.log('parseInt(tuple[0]): ', parseInt(tuple[1]) + 1);
-  console.log('board: ', board);
-
-  console.log('mark[turn: ', mark[turn]);
-  board[parseInt(tuple[0]) + 1][parseInt(tuple[1]) + 1] = mark[turn];
-  console.log('board: ', board);
-
-};
 
 const alternatePlayer = (turn) => {
   if (turn === 1) {
@@ -72,22 +62,35 @@ const checkVert = (tuple, board) => {
 };
 const checkMajDiag = (tuple, board) => {
   const val = board[tuple[0]][tuple[1]];
-  const up = [tuple[0] + 1, [tuple[1] + 1]];
-  const down = [tuple[0] - 1, [tuple[1] - 1]];
-  if (board[up][tuple[1]] === val && board[down][tuple[1]] === val) {
+  if (board[tuple[0] - 1][tuple[1] - 1] === val && board[tuple[0] + 1][tuple[1] + 1] === val) {
     return true;
   }
   return false;
 };
 const checkMinDiag = (tuple, board) => {
   const val = board[tuple[0]][tuple[1]];
-  const up = [tuple[0] + 1, [tuple[1] + 1]];
-  const down = [tuple[0] - 1, [tuple[1] - 1]];
-  if (board[up][tuple[1]] === val && board[down][tuple[1]] === val) {
+  if (board[tuple[0] - 1][tuple[1] + 1] === val && board[tuple[0] + 1][tuple[1] - 1] === val) {
     return true;
   }
   return false;
 };
+
+
+const addPiece = (tuple) => {
+  // console.log('parseInt(tuple[0]): ', parseInt(tuple[0]) + 1);
+  // console.log('parseInt(tuple[0]): ', parseInt(tuple[1]) + 1);
+  // console.log('board: ', board);
+  var outer = parseInt(tuple[0]) + 1;
+  var inner = parseInt(tuple[0]) + 1;
+
+
+  // console.log('mark[turn: ', mark[turn]);
+  board[outer][inner] = mark[turn];
+  // console.log('board: ', board);
+  checkForWin([outer, inner]);
+};
+
+
 // we want a message to tell us whose turn it is
 // AND whether they are an x or o
 const takeTurnMessage = `It is ${player}'s turn. Play you're ${mark[turn]}, ${player}! Tell me the coordinates of you're move. (e.g. '00' will put your mark at the top left point and '22' will put it at the bottom right!)`;
