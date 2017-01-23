@@ -28,9 +28,15 @@ const printBoard = (board) => {
   return board.slice().join('\n');
 };
 
-const addPiece = (tuple, board) => {
+const addPiece = (tuple) => {
   console.log('parseInt(tuple[0]): ', parseInt(tuple[0]) + 1);
+  console.log('parseInt(tuple[0]): ', parseInt(tuple[1]) + 1);
+  console.log('board: ', board);
+
+  console.log('mark[turn: ', mark[turn]);
   board[parseInt(tuple[0]) + 1][parseInt(tuple[1]) + 1] = mark[turn];
+  console.log('board: ', board);
+
 };
 
 const alternatePlayer = (turn) => {
@@ -46,9 +52,9 @@ const takeTurnMessage = `It is ${player}'s turn. Play you're ${mark[turn]}, ${pl
 
 const playedTurnMessage = `${player} played an ${mark[turn]}. Here is the new board: `;
 
-const printBoardMessage = `Here is the board: \n ${printBoard(board)} \n${takeTurnMessage}`;
+const printBoardMessage = (board) => `Here is the board: \n ${printBoard(board)} \n${takeTurnMessage}`;
 
-console.log('Let\'s play Tic Tac Toe! \n', '\n', printBoardMessage);
+console.log('Let\'s play Tic Tac Toe! \n', '\n', printBoardMessage(board));
 
 process.stdin.setEncoding('utf8');
 
@@ -66,9 +72,10 @@ process.stdin.on('readable', () => {
 
     // process.stdout.write('data: ' + chunk);
     process.stdout.write(playedTurnMessage);
-    addPiece(chunk, board);
-    alternatePlayer(turn);
-    process.stdout.write(printBoardMessage);
+    addPiece(chunk);
+    turn = alternatePlayer(turn);
+    var newPrintBoardMessage = printBoardMessage(board);
+    process.stdout.write(newPrintBoardMessage);
     process.stdout.write(takeTurnMessage);
   }
 });
