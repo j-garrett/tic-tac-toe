@@ -22,12 +22,18 @@ const message = `It is ${player}'s turn. Play you're ${mark[turn]}, ${player}! T
 // We will use an array of array's to represent our board
 // We will accept coordinates for where player is playing val
 let board = [
-  ['_', '_', '_'],
-  ['_', '_', '_'],
-  ['_', '_', '_'],
+  ['________'],
+  ['|', '_', '_', '_', '|'],
+  ['|', '_', '_', '_', '|'],
+  ['|', '_', '_', '_', '|'],
+  [' _______']
 ];
 
+const printBoard = (board) => {
+  return board.slice().join('\n');
+};
 
+console.log('Let\'s play Tic Tac Toe! Here is the board: \n', printBoard(board), `\n${message}`);
 
 process.stdin.on('readable', () => {
   var chunk = process.stdin.read();
