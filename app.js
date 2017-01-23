@@ -2,7 +2,6 @@
 
 // We will us stdin's readable stream to get input
 // and stdout to write results
-process.stdin.setEncoding('utf8');
 
 // Track turn so we can evaluate to makr and player message
 let turn = 1;
@@ -14,12 +13,6 @@ const mark = ['_', 'X', 'O'];
 // We want to have a player tracker so we can notify whose turn it is
 // we will concat with tracker to make sure we put in proper val
 const player = `player${turn}`;
-
-// we want a message to tell us whose turn it is
-// AND whether they are an x or o
-const takeTurnMessage = `It is ${player}'s turn. Play you're ${mark[turn]}, ${player}! Tell me the coordinates of you're move. (e.g. [0, 0] will put your mark at the top left point and [2, 2] will put it at the bottom right!)`;
-
-const playedTurnMessage = `${player} played an ${mark[turn]}.`;
 
 // We will use an array of array's to represent our board
 // We will accept coordinates for where player is playing val
@@ -35,8 +28,9 @@ const printBoard = (board) => {
   return board.slice().join('\n');
 };
 
-const addPiece = (tuple) => {
-  board[tuple[0] + 1][tuple[1] + 1] = mark[turn];
+const addPiece = (tuple, board) => {
+  console.log('parseInt(tuple[0]): ', parseInt(tuple[0]) + 1);
+  board[parseInt(tuple[0]) + 1][parseInt(tuple[1]) + 1] = mark[turn];
 };
 
 const alternatePlayer = (turn) => {
@@ -46,13 +40,39 @@ const alternatePlayer = (turn) => {
   return 1;
 };
 
-console.log('Let\'s play Tic Tac Toe! Here is the board: \n', printBoard(board), `\n${takeTurnMessage}`);
+// we want a message to tell us whose turn it is
+// AND whether they are an x or o
+const takeTurnMessage = `It is ${player}'s turn. Play you're ${mark[turn]}, ${player}! Tell me the coordinates of you're move. (e.g. '00' will put your mark at the top left point and '22' will put it at the bottom right!)`;
+
+const playedTurnMessage = `${player} played an ${mark[turn]}. Here is the new board: `;
+
+const printBoardMessage = `Here is the board: \n ${printBoard(board)} \n${takeTurnMessage}`;
+
+console.log('Let\'s play Tic Tac Toe! \n', '\n', printBoardMessage);
+
+process.stdin.setEncoding('utf8');
 
 process.stdin.on('readable', () => {
   var chunk = process.stdin.read();
   // We will put game logic inside of here
-  if (chunk !== null) {
+  // console.log(chunk);
+  if (chunk !== null
+    // && chunk.length === 2
+    // && chunk[0] >= 0
+    // && chunk[0] < 3
+    // && chunk[1] >= 0
+    // && chunk[1] < 3
+    ) {
 
-    process.stdout.write(`data: ${chunk}`);
+    // process.stdout.write('data: ' + chunk);
+    process.stdout.write(playedTurnMessage);
+    addPiece(chunk, board);
+    alternatePlayer(turn);
+    process.stdout.write(printBoardMessage);
+    process.stdout.write(takeTurnMessage);
   }
+});
+
+process.stdin.on('end', () => {
+  process.stdout.write('end');
 });
