@@ -17,7 +17,9 @@ const player = `player${turn}`;
 
 // we want a message to tell us whose turn it is
 // AND whether they are an x or o
-const message = `It is ${player}'s turn. Play you're ${mark[turn]}, ${player}! Tell me the coordinates of you're move. (e.g. [0, 0] will put your mark at the top left point and [2, 2] will put it at the bottom right!)`;
+const takeTurnMessage = `It is ${player}'s turn. Play you're ${mark[turn]}, ${player}! Tell me the coordinates of you're move. (e.g. [0, 0] will put your mark at the top left point and [2, 2] will put it at the bottom right!)`;
+
+const playedTurnMessage = `${player} played an ${mark[turn]}.`;
 
 // We will use an array of array's to represent our board
 // We will accept coordinates for where player is playing val
@@ -33,12 +35,24 @@ const printBoard = (board) => {
   return board.slice().join('\n');
 };
 
-console.log('Let\'s play Tic Tac Toe! Here is the board: \n', printBoard(board), `\n${message}`);
+const addPiece = (tuple) => {
+  board[tuple[0] + 1][tuple[1] + 1] = mark[turn];
+};
+
+const alternatePlayer = (turn) => {
+  if (turn === 1) {
+    return 2;
+  }
+  return 1;
+};
+
+console.log('Let\'s play Tic Tac Toe! Here is the board: \n', printBoard(board), `\n${takeTurnMessage}`);
 
 process.stdin.on('readable', () => {
   var chunk = process.stdin.read();
   // We will put game logic inside of here
   if (chunk !== null) {
+
     process.stdout.write(`data: ${chunk}`);
   }
 });
